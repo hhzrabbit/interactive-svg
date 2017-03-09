@@ -12,6 +12,9 @@ var makeCircle = function(cx, cy, r){
     c.setAttribute("r", r);
     c.setAttribute("fill",  "blue");
     c.setAttribute("stroke", "black");
+    c.setAttribute("xInc", 1);
+    c.setAttribute("yInc", 1);
+    console.log(c);
     pic.appendChild(c);
     return c;
 }
@@ -49,9 +52,6 @@ var intervalID;
 var movement = function(e){
     end(e);
 
-    var xInc = 1;
-    var yInc = 1;
-
     var bounce = function() {
 	var circles = document.getElementsByTagName("circle");
 
@@ -59,18 +59,22 @@ var movement = function(e){
 	    var c = circles[i];
 	    var x = parseInt(c.getAttribute("cx"));
 	    var y = parseInt(c.getAttribute("cy"));
+	    var xInc = parseInt(c.getAttribute("xInc"));
+	    var yInc = parseInt(c.getAttribute("yInc"));
 	    c.setAttribute("cx", x + xInc);
 	    c.setAttribute("cy", y + yInc);
 	    
-	    if (x < 0  || x > width - 10){
+	    if (x < 10  || x > width - 10){
 		xInc = - xInc;
 	    }
-	    if (y < 0 || y > height - 10){
+	    if (y < 10 || y > height - 10){
 		yInc = - yInc;
 	    }
 
 	    c.setAttribute("cx", x + xInc);
 	    c.setAttribute("cy", y + yInc);
+	    c.setAttribute("xInc", xInc);
+	    c.setAttribute("yInc", yInc);
 	}
     }
     intervalID = window.setInterval( bounce, 10 );
