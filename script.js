@@ -5,6 +5,8 @@ var move = document.getElementById("move");
 var width = parseInt(pic.getAttribute("width"));
 var height = parseInt(pic.getAttribute("height"));
 
+var radius = 20;
+
 var makeCircle = function(cx, cy, r){
     var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     c.setAttribute("cx", cx);
@@ -12,9 +14,8 @@ var makeCircle = function(cx, cy, r){
     c.setAttribute("r", r);
     c.setAttribute("fill",  "blue");
     c.setAttribute("stroke", "black");
-    c.setAttribute("xInc", 1);
-    c.setAttribute("yInc", 1);
-    console.log(c);
+    c.setAttribute("xInc", Math.floor(Math.random() * 3 + 1));
+    c.setAttribute("yInc", Math.floor(Math.random() * 3 + 1));
     pic.appendChild(c);
     return c;
 }
@@ -33,17 +34,19 @@ var changeColor = function(e){
 
 var reincarnate = function(e){
     e.target.parentNode.removeChild(e.target);
-    newCircle(Math.floor(Math.random() * width), Math.floor(Math.random() * height));
+    var x = Math.floor(Math.random() * (width - (2 * radius)) + radius);
+    var y = Math.floor(Math.random() * (height - (2 * radius)) + radius);
+    newCircle(x, y);
     e.stopPropagation();
 };
 
 var draw = function(e){
-    var circle = makeCircle(e.offsetX, e.offsetY, 10);
+    var circle = makeCircle(e.offsetX, e.offsetY, radius);
     circle.addEventListener("click", changeColor, true);
 };
 
 var newCircle = function(x, y){
-    var circle = makeCircle(x, y, 10);
+    var circle = makeCircle(x, y, radius);
     circle.addEventListener("click", changeColor, true);
 };
 
@@ -61,13 +64,11 @@ var movement = function(e){
 	    var y = parseInt(c.getAttribute("cy"));
 	    var xInc = parseInt(c.getAttribute("xInc"));
 	    var yInc = parseInt(c.getAttribute("yInc"));
-	    c.setAttribute("cx", x + xInc);
-	    c.setAttribute("cy", y + yInc);
 	    
-	    if (x < 10  || x > width - 10){
+	    if (x < radius || x > width - radius){
 		xInc = - xInc;
 	    }
-	    if (y < 10 || y > height - 10){
+	    if (y < radius || y > height - radius){
 		yInc = - yInc;
 	    }
 
