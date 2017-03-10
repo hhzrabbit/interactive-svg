@@ -1,11 +1,12 @@
 var pic = document.getElementById("vimage");
 var clear = document.getElementById("clear");
 var move = document.getElementById("move");
+var stop = document.getElementById("stop");
 
 var width = parseInt(pic.getAttribute("width"));
 var height = parseInt(pic.getAttribute("height"));
 
-var radius = 20;
+var radius = 15;
 
 var makeCircle = function(cx, cy, r){
     var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
@@ -81,10 +82,11 @@ var movement = function(e){
     intervalID = window.setInterval( bounce, 10 );
 }
 
-pic.addEventListener("click", draw);
-move.addEventListener("click", movement);
-clear.addEventListener("click", clearPic);
-
 var end = function(e){
     window.clearInterval( intervalID );
 }
+
+pic.addEventListener("click", draw);
+move.addEventListener("click", movement);
+clear.addEventListener("click", clearPic);
+stop.addEventListener("click", end);
