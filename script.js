@@ -8,15 +8,15 @@ var height = parseInt(pic.getAttribute("height"));
 
 var radius = 15;
 
-var makeCircle = function(cx, cy, r){
+var makeCircle = function(cx, cy, r, xInc, yInc){
     var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     c.setAttribute("cx", cx);
     c.setAttribute("cy", cy);
     c.setAttribute("r", r);
     c.setAttribute("fill",  "blue");
     c.setAttribute("stroke", "black");
-    c.setAttribute("xInc", Math.floor(Math.random() * 3 + 1));
-    c.setAttribute("yInc", Math.floor(Math.random() * 3 + 1));
+    c.setAttribute("xInc", xInc);
+    c.setAttribute("yInc", yInc);
     pic.appendChild(c);
     return c;
 }
@@ -37,17 +37,17 @@ var reincarnate = function(e){
     e.target.parentNode.removeChild(e.target);
     var x = Math.floor(Math.random() * (width - (2 * radius)) + radius);
     var y = Math.floor(Math.random() * (height - (2 * radius)) + radius);
-    newCircle(x, y);
+    var xInc = Math.floor(Math.random() * 3 + 1);
+    var yInc = Math.floor(Math.random() * 3 + 1);
+    var circle = makeCircle(x, y, radius, xInc, yInc);
+    circle.addEventListener("click", changeColor, true);
     e.stopPropagation();
 };
 
 var draw = function(e){
-    var circle = makeCircle(e.offsetX, e.offsetY, radius);
-    circle.addEventListener("click", changeColor, true);
-};
-
-var newCircle = function(x, y){
-    var circle = makeCircle(x, y, radius);
+    var xInc = Math.floor(Math.random() * 3 + 1);
+    var yInc = Math.floor(Math.random() * 3 + 1);
+    var circle = makeCircle(e.offsetX, e.offsetY, radius, xInc, yInc);
     circle.addEventListener("click", changeColor, true);
 };
 
