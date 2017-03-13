@@ -6,7 +6,7 @@ var stop = document.getElementById("stop");
 var width = parseInt(pic.getAttribute("width"));
 var height = parseInt(pic.getAttribute("height"));
 
-var radius = 15;
+var radius = 30;
 
 var makeCircle = function(cx, cy, r, xInc, yInc){
     var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
@@ -19,6 +19,10 @@ var makeCircle = function(cx, cy, r, xInc, yInc){
     c.setAttribute("yInc", yInc);
     pic.appendChild(c);
     return c;
+}
+
+var deleteMe = function(circle){
+    circle.parentNode.removeChild(circle);
 }
 
 var clearPic = function(e){
@@ -63,23 +67,37 @@ var movement = function(e){
 	    var c = circles[i];
 	    var x = parseInt(c.getAttribute("cx"));
 	    var y = parseInt(c.getAttribute("cy"));
+	    var r = parseInt(c.getAttribute("r"));
+	 
 	    var xInc = parseInt(c.getAttribute("xInc"));
 	    var yInc = parseInt(c.getAttribute("yInc"));
-	    
-	    if (x < radius || x > width - radius){
-		xInc = - xInc;
-	    }
-	    if (y < radius || y > height - radius){
-		yInc = - yInc;
+
+	    if (Math.abs(y-200) < Math.abs(yInc)){
+		deleteMe(c);
+		if (r > 4){
+		    makeCircle(x + xInc, y - yInc, Math.floor(r/2), xInc, - yInc);
+		    makeCircle(x + xInc, y + yInc + yInc, Math.floor(r/2), xInc, yInc);
+		}
 	    }
 
-	    c.setAttribute("cx", x + xInc);
-	    c.setAttribute("cy", y + yInc);
-	    c.setAttribute("xInc", xInc);
-	    c.setAttribute("yInc", yInc);
+	    else {
+		
+		if (x < r || x > width - r){
+		    xInc = - xInc;
+		}
+		if (y < r || y > height - r){
+		    yInc = - yInc;
+		}
+
+		c.setAttribute("cx", x + xInc);
+		c.setAttribute("cy", y + yInc);
+		
+		c.setAttribute("xInc", xInc);
+		c.setAttribute("yInc", yInc);
+	    }
 	}
     }
-    intervalID = window.setInterval( bounce, 10 );
+    intervalID = window.setInterval( bounce, 16 );
 }
 
 var end = function(e){
