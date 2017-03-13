@@ -38,12 +38,13 @@ var changeColor = function(e){
 }
 
 var reincarnate = function(e){
+    var r = e.target.getAttribute("r");
     e.target.parentNode.removeChild(e.target);
     var x = Math.floor(Math.random() * (width - (2 * radius)) + radius);
     var y = Math.floor(Math.random() * (height - (2 * radius)) + radius);
     var xInc = Math.floor(Math.random() * 3 + 1);
     var yInc = Math.floor(Math.random() * 3 + 1);
-    var circle = makeCircle(x, y, radius, xInc, yInc);
+    var circle = makeCircle(x, y, r, xInc, yInc);
     circle.addEventListener("click", changeColor, true);
     e.stopPropagation();
 };
@@ -75,8 +76,10 @@ var movement = function(e){
 	    if (Math.abs(y-200) < Math.abs(yInc)){
 		deleteMe(c);
 		if (r > 4){
-		    makeCircle(x + xInc, y - yInc, Math.floor(r/2), xInc, - yInc);
-		    makeCircle(x + xInc, y + yInc + yInc, Math.floor(r/2), xInc, yInc);
+		    var small1 = makeCircle(x + xInc, y - yInc, Math.floor(r/2), xInc, - yInc);
+		    small1.addEventListener("click", changeColor, true);
+		    var small2 = makeCircle(x + xInc, y + yInc + yInc, Math.floor(r/2), xInc, yInc);
+		    small2.addEventListener("click", changeColor, true);
 		}
 	    }
 
